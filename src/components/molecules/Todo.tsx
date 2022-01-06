@@ -6,6 +6,7 @@ type Props = TodoType & {
   handleDelete: (id: number) => void;
 };
 
+// メモ化されていないコンポーネント
 const TodoWithoutMemo: FC<Props> = (props) => {
   return (
     <div className="relative h-14 max-w-lg">
@@ -41,4 +42,5 @@ const TodoWithoutMemo: FC<Props> = (props) => {
   );
 };
 
+// メモ化してエクスポート
 export const Todo = memo(TodoWithoutMemo);
