@@ -11,9 +11,9 @@ const TodoWithoutMemo: FC<Props> = (props) => {
   return (
     <div className="relative h-14">
       <input
-        className="appearance-none bg-transparent border-none w-full h-full text-gray-700 py-2 px-2 leading-tight focus:outline-none focus:bg-gray-50 font font-body font-bold"
+        className="appearance-none bg-transparent border-none w-full h-full text-gray-700 py-2 px-2 leading-tight focus:outline-none focus:bg-gray-50 font font-body font-bold placeholder-gray-300"
         type="text"
-        placeholder="やるべきこと"
+        placeholder="やること"
         aria-label="body"
         value={props.value}
         onChange={(e) => props.handleEdit(props.id, e.target.value)}
