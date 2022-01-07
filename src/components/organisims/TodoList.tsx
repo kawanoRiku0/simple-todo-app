@@ -1,7 +1,7 @@
 import { AddButton } from "components/molecules/AddButton";
 import { Todo } from "components/molecules/Todo";
-import { FC, memo, useCallback, useState } from "react";
-import { TodoType } from "types/todo";
+import { useTodo } from "hooks/useTodo";
+import { FC, memo } from "react";
 
 type Props = {
   title: string;
@@ -10,44 +10,7 @@ type Props = {
 
 // メモ化されていないコンポーネント
 const TodoListWithoutMemo: FC<Props> = (props) => {
-  const [todos, setTodos] = useState<TodoType[]>([]);
-
-  const handleEdit = useCallback(
-    (id: number, value: string) => {
-      // ディープコピー
-      const deepCopy = todos.map((todo) => ({ ...todo }));
-
-      // 変更があったtodoをidで検索、更新
-      const newTodos = deepCopy.map((todo) => {
-        if (todo.id === id) {
-          todo.value = value;
-        }
-        return todo;
-      });
-      setTodos(newTodos);
-    },
-    [todos]
-  );
-
-  const handleDelete = useCallback(
-    (id: number) => {
-      const newTodos = todos.filter((todo) => todo.id !== id);
-      setTodos(newTodos);
-    },
-    [todos]
-  );
-
-  const handleAdd = useCallback(() => {
-    const newTodo = {
-      value: "",
-      id: new Date().getTime(),
-    };
-
-    const newTodos = [...todos, newTodo];
-
-    setTodos(newTodos);
-  }, [todos]);
-
+  const { handleEdit, handleDelete, handleAdd, todos } = useTodo();
   return (
     <div className="p-5">
       <h2 className={`text-4xl font-body font-bold text-${props.color}-500`}>
