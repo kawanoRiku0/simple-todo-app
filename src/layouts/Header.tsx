@@ -3,8 +3,9 @@ import { FC, memo } from "react";
 // メモ化されていないコンポーネント
 const HeaderWithoutMemo: FC = () => {
   return (
-    <div className="  h-20 relative w-full py-5">
-      <div className=" absolute right-7 h-12 w-12 ">
+    <div className="h-20 relative w-full py-5 bg-white drop-shadow-md text-center">
+      <h1 className=" text-3xl text-bold ">zubora todo</h1>
+      <div className=" absolute right-7 h-12 w-12 -translate-y-1/2 top-1/2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-full w-full  text-gray-400"
