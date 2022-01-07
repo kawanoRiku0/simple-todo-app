@@ -8,7 +8,7 @@ type Props = {
 const AddButtonWithoutMemo: FC<Props> = (props) => {
   return (
     <div
-      className="relative h-14 max-w-lg hover:bg-gray-300 transition"
+      className="relative h-14 hover:bg-gray-300 transition"
       onClick={props.handleAdd}
     >
       <input
