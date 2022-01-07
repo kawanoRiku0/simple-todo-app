@@ -3,24 +3,13 @@ import { Todo } from "components/molecules/Todo";
 import { FC, memo, useCallback, useState } from "react";
 import { TodoType } from "types/todo";
 
-// テスト用
-// const todolist = [
-//   {
-//     value: "朝ごはん食べる",
-//     id: 1,
-//   },
-//   {
-//     value: "昼ごはん食べる",
-//     id: 2,
-//   },
-//   {
-//     value: "夜ごはん食べる",
-//     id: 3,
-//   },
-// ];
+type Props = {
+  title: string;
+  color: string;
+};
 
 // メモ化されていないコンポーネント
-const TodoListWithoutMemo: FC = () => {
+const TodoListWithoutMemo: FC<Props> = (props) => {
   const [todos, setTodos] = useState<TodoType[]>([]);
 
   const handleEdit = useCallback(
@@ -60,19 +49,19 @@ const TodoListWithoutMemo: FC = () => {
   }, [todos]);
 
   return (
-    <div>
-      <div>
-        <h2 className="text-lg font-body font-bold">今日やること</h2>
-        {todos.map((todo) => (
-          <Todo
-            key={todo.id}
-            value={todo.value}
-            id={todo.id}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-          />
-        ))}
-      </div>
+    <div className="p-5">
+      <h2 className={`text-4xl font-body font-bold text-${props.color}-500`}>
+        {props.title}
+      </h2>
+      {todos.map((todo) => (
+        <Todo
+          key={todo.id}
+          value={todo.value}
+          id={todo.id}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
+      ))}
       <AddButton handleAdd={handleAdd} />
     </div>
   );
