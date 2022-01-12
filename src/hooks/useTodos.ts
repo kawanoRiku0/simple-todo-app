@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { TodoType } from "types/todo";
 
-export const useTodo = () => {
+export const useTodos = () => {
   const [todos, setTodos] = useState<TodoType[]>([]);
 
   const handleEdit = useCallback(

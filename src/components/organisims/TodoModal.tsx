@@ -1,6 +1,6 @@
 import { FC, memo, useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { useTodo } from "hooks/useTodo";
+import { useTodos } from "hooks/useTodo";
 
 const TodoModalWithoutMemo: FC = () => {
   const [isOpen, setIsOpen] = useState(true);
