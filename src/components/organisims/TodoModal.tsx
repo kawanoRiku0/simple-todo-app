@@ -1,15 +1,22 @@
-import { FC, memo, useState } from "react";
+import { FC, memo } from "react";
 import { Dialog } from "@headlessui/react";
-import { useTodos } from "hooks/useTodo";
+import { useSnapshot } from "valtio";
+import { modalState } from "globalStates/TodoModal";
+import { newTodoState } from "globalStates/NewTodo";
 
 const TodoModalWithoutMemo: FC = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const modalStateHandler = useSnapshot(modalState);
+  const newTodoStateHandler = useSnapshot(newTodoState);
 
   return (
     <Dialog
-      open={isOpen}
-      onClose={() => setIsOpen(false)}
-      className="  w-11/12  sm:max-w-xl p-7 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md bg-white "
+      open={modalStateHandler.isOpen}
+      onClose={() => {
+        modalStateHandler.handleClose();
+        newTodoState.handleDeleteCategory();
+        newTodoState.handleDeleteTodo();
+      }}
+      className="w-11/12  sm:max-w-xl p-7 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md bg-white "
     >
       <Dialog.Overlay className="bg-gray-100 opacity-40 w-screen h-screen fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 " />
 
@@ -23,17 +30,23 @@ const TodoModalWithoutMemo: FC = () => {
           type="text"
           placeholder="やること"
           aria-label="body"
+          value={newTodoStateHandler.todo}
+          onChange={(e) => newTodoStateHandler.handleEditTodo(e.target.value)}
         />
         <div className=" flex sm:justify-between sm:flex-row sm:space-y-0 flex-col space-y-4">
           <button
             className=" bg-green-300 p-3 rounded-md text-2xl"
-            onClick={() => setIsOpen(false)}
+            onClick={modalStateHandler.handleClose}
           >
             あたらしく追加
           </button>
           <button
             className=" bg-red-300 p-3 rounded-md text-2xl"
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              modalStateHandler.handleClose();
+              newTodoStateHandler.handleDeleteTodo();
+              newTodoStateHandler.handleDeleteCategory();
+            }}
           >
             やっぱやめた！
           </button>

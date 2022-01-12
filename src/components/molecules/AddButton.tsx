@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 
 type Props = {
-  handleAdd: () => void;
+  handleClick: () => void;
 };
 
 // メモ化されていないコンポーネント
@@ -9,7 +9,7 @@ const AddButtonWithoutMemo: FC<Props> = (props) => {
   return (
     <div
       className="relative h-14 hover:bg-gray-300 transition"
-      onClick={props.handleAdd}
+      onClick={props.handleClick}
     >
       <input
         className="appearance-none bg-transparent border-none w-full h-full text-gray-700 ml-10 py-2 px-2 leading-tight focus:outline-none focus:bg-gray-150 font font-body font-bold"
