@@ -13,7 +13,6 @@ const TodoModalWithoutMemo: FC = () => {
       open={modalStateHandler.isOpen}
       onClose={() => {
         modalStateHandler.handleClose();
-        newTodoState.handleDeleteCategory();
         newTodoState.handleDeleteTodo();
       }}
       className="w-11/12  sm:max-w-xl p-7 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md bg-white "
@@ -45,7 +44,6 @@ const TodoModalWithoutMemo: FC = () => {
             onClick={() => {
               modalStateHandler.handleClose();
               newTodoStateHandler.handleDeleteTodo();
-              newTodoStateHandler.handleDeleteCategory();
             }}
           >
             やっぱやめた！
