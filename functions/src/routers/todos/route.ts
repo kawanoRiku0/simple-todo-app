@@ -26,7 +26,9 @@ type Doc = {
 };
 
 type Json = {
-  todos: TodoType[];
+  todos?: TodoType[];
+  message?: string;
+  error?: string;
 };
 
 router
@@ -47,6 +49,32 @@ router
     } catch (e) {
       console.error(e);
     }
+  })
+  .post(async (req: express.Request, res: express.Response<Json>) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+
+    const value: string = req.body.value;
+
+    let error = "";
+    let message = "";
+
+    try {
+      // 一時的にany
+      if (!value) {
+        // eslint-disable-next-line no-throw-literal
+        throw "it is empty!";
+      }
+      await db.collection("todos").add({ value });
+      message = "作成成功";
+    } catch (e) {
+      console.error(typeof e);
+      if (e === "it is empty!") {
+        error = "中身が空です";
+      } else {
+        error = "作成失敗";
+      }
+    }
+    res.json({ message, error });
   });
 
 module.exports = router;
