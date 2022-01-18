@@ -80,4 +80,19 @@ router
     }
   });
 
+router
+  .route(`${endPoint}/:id`)
+  .delete(async (req: express.Request, res: express.Response<Json>) => {
+    const id: string = req.params.id;
+    try {
+      await db.collection("todos").doc(id).delete();
+      const message = "削除成功";
+      return res.json({ message });
+    } catch (e) {
+      console.error(e);
+      const error = "削除失敗";
+      return res.json({ error });
+    }
+  });
+
 module.exports = router;
