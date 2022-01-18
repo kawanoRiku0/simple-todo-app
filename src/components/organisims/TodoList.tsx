@@ -1,7 +1,6 @@
 import { AddButton } from "components/molecules/AddButton";
 import { Todo } from "components/molecules/Todo";
 import { modalState } from "globalStates/TodoModal";
-import { useTodos } from "hooks/useTodos";
 import { FC, memo } from "react";
 import { TodoType } from "types/todo";
 import { useSnapshot } from "valtio";
@@ -13,8 +12,23 @@ type Props = {
 
 // メモ化されていないコンポーネント
 const TodoListWithoutMemo: FC<Props> = (props) => {
-  const { handleEdit, handleDelete, handleAdd, todos } = useTodos();
   const modalStateHandler = useSnapshot(modalState);
+
+  const handleDelete = async (id: string) => {
+    const URL = `http://localhost:5001/simple-todo-76227/asia-northeast2/api/todos/${id}`;
+    const res = await fetch(URL, {
+      method: "DELETE",
+      mode: "cors",
+    });
+
+    const message = await res.json();
+
+    if (message.error) {
+      alert(message.error);
+    } else {
+      console.log(message.message);
+    }
+  };
 
   const handleClick = () => {
     modalStateHandler.handleOpen();
@@ -30,7 +44,7 @@ const TodoListWithoutMemo: FC<Props> = (props) => {
             key={todo.id}
             value={todo.value}
             id={todo.id}
-            handleEdit={handleEdit}
+            handleEdit={() => {}}
             handleDelete={handleDelete}
           />
         ))}

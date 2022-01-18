@@ -1,13 +1,15 @@
 import { FC, memo } from "react";
+import { useSWRConfig } from "swr";
 import { TodoType } from "types/todo";
 
 type Props = TodoType & {
-  handleEdit: (id: number, value: string) => void;
-  handleDelete: (id: number) => void;
+  handleEdit: (id: string, value: string) => void;
+  handleDelete: (id: string) => void;
 };
 
 // メモ化されていないコンポーネント
 const TodoWithoutMemo: FC<Props> = (props) => {
+  const { mutate } = useSWRConfig();
   return (
     <div className="relative h-14">
       <input
@@ -21,7 +23,13 @@ const TodoWithoutMemo: FC<Props> = (props) => {
       <button
         className="absolute right-3 top-1/2 -translate-y-1/2 text-teal-500 hover:text-teal-800"
         type="button"
-        onClick={() => props.handleDelete(props.id)}
+        onClick={async () => {
+          await props.handleDelete(props.id);
+          mutate(
+            "http://localhost:5001/simple-todo-76227/asia-northeast2/api/todos",
+            true
+          );
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
