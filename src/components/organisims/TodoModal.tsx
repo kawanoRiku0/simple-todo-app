@@ -3,8 +3,10 @@ import { Dialog } from "@headlessui/react";
 import { useSnapshot } from "valtio";
 import { modalState } from "globalStates/TodoModal";
 import { newTodoState } from "globalStates/NewTodo";
+import { useSWRConfig } from "swr";
 
 const TodoModalWithoutMemo: FC = () => {
+  const { mutate } = useSWRConfig();
   const modalStateHandler = useSnapshot(modalState);
   const newTodoStateHandler = useSnapshot(newTodoState);
 
@@ -35,7 +37,15 @@ const TodoModalWithoutMemo: FC = () => {
         <div className=" flex sm:justify-between sm:flex-row sm:space-y-0 flex-col space-y-4">
           <button
             className=" bg-green-300 p-3 rounded-md text-2xl"
-            onClick={modalStateHandler.handleClose}
+            onClick={async () => {
+              await newTodoState.handleAddTodo();
+              modalStateHandler.handleClose();
+              newTodoStateHandler.handleDeleteTodo();
+              mutate(
+                "http://localhost:5001/simple-todo-76227/asia-northeast2/api/todos",
+                true
+              );
+            }}
           >
             あたらしく追加
           </button>

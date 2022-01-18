@@ -7,7 +7,7 @@ import { TodoType } from "types/todo";
 import { useSnapshot } from "valtio";
 
 type Props = {
-  todos: TodoType[];
+  todos?: TodoType[];
   title: string;
 };
 
@@ -25,7 +25,7 @@ const TodoListWithoutMemo: FC<Props> = (props) => {
         <h2 className={`text-4xl font-body font-bold text-orange-500`}>
           {props.title}
         </h2>
-        {props.todos.map((todo) => (
+        {props.todos?.map((todo) => (
           <Todo
             key={todo.id}
             value={todo.value}
