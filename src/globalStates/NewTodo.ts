@@ -1,4 +1,3 @@
-import { useSWRConfig } from "swr";
 import { proxy } from "valtio";
 
 const handleEditTodo = (value: string) => {
