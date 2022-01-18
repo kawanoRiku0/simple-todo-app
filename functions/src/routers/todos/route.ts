@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint linebreak-style: ["error", "windows"] */
 import express = require("express");
+
 const admin = require("firebase-admin");
 const serviceAccount = require("../../../serviceAccount.json");
 
@@ -34,10 +35,12 @@ type Json = {
 router
   .route(endPoint)
   .get(async (req: express.Request, res: express.Response<Json>) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     try {
       // 一時的に型any
-      const querySnapshot: any = await db.collection("todos").get();
+      const querySnapshot: any = await db
+        .collection("todos")
+        .orderBy("createdAt", "asc")
+        .get();
 
       const todos: TodoType[] = querySnapshot.docs.map((doc: Doc) => {
         return {
@@ -45,36 +48,36 @@ router
           ...doc.data(),
         };
       });
-      res.json({ todos });
+      return res.status(200).json({ todos });
     } catch (e) {
       console.error(e);
+      return res.status(400).json({ error: "取得失敗" });
     }
   })
   .post(async (req: express.Request, res: express.Response<Json>) => {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-
     const value: string = req.body.value;
-
-    let error = "";
-    let message = "";
-
+    const createdAt = new Date().toISOString();
     try {
       // 一時的にany
       if (!value) {
         // eslint-disable-next-line no-throw-literal
         throw "it is empty!";
       }
-      await db.collection("todos").add({ value });
-      message = "作成成功";
+      await db.collection("todos").add({ value, createdAt });
+      const message = "作成成功";
+
+      return res.json({ message });
     } catch (e) {
-      console.error(typeof e);
+      let error = "";
+      console.error(e);
       if (e === "it is empty!") {
         error = "中身が空です";
       } else {
         error = "作成失敗";
       }
+
+      return res.json({ error });
     }
-    res.json({ message, error });
   });
 
 module.exports = router;
