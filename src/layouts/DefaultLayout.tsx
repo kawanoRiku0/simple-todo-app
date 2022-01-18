@@ -9,7 +9,7 @@ type Props = {
 // メモ化されていないコンポーネント
 const DefaultLayoutWithoutMemo: FC<Props> = ({ children }) => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       <Header />
       {children}
       <Footer />
